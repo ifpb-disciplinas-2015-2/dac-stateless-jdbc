@@ -5,28 +5,32 @@
  */
 package edu.ifpb.dac.service;
 
+import edu.ifpb.dac.CadastroPessoa;
+import edu.ifpb.dac.infra.DaoJDBC;
 import edu.ifpb.dac.Pessoa;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author Ricardo Job
  */
 @Stateless
+@Local(CadastroPessoa.class)
 public class PessoaFacade implements CadastroPessoa {
 
-    @PersistenceContext(unitName = "av4")
-    private EntityManager em;
+    @EJB
+    private DaoJDBC dao;
 
     @Override
     public void salvar(Pessoa entity) {
-        em.persist(entity);
+        dao.salvar(entity);
     }
 
-    
-    /**Informações:   EJB5181:Portable JNDI 
-    names for EJB PessoaFacade: [java:global/ExemploSessionBean/PessoaFacade, 
-    * java:global/ExemploSessionBean/PessoaFacade!edu.ifpb.dac.service.CadastroPessoa]*/
+    public List<Pessoa> pessoas() {
+        return dao.listar();
+    }
+
 }

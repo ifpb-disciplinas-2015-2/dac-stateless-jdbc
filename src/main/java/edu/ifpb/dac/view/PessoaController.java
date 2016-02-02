@@ -1,9 +1,10 @@
 package edu.ifpb.dac.view;
 
 import edu.ifpb.dac.Pessoa;
-import edu.ifpb.dac.service.CadastroPessoa;
+import edu.ifpb.dac.CadastroPessoa;
 import edu.ifpb.dac.util.JsfUtil;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB; 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,7 +14,8 @@ import javax.faces.bean.SessionScoped;
 public class PessoaController implements Serializable {
 
     private Pessoa pessoa = new Pessoa();
-
+    private List<Pessoa> list;
+    
     @EJB
     private CadastroPessoa ejbFacade;
 
@@ -38,6 +40,17 @@ public class PessoaController implements Serializable {
             JsfUtil.addErrorMessage(e, "Erro ao salvar");
             return null;
         }
+    }
+    
+    
+
+    public List<Pessoa> getList() {
+        list=ejbFacade.pessoas();
+        return list;
+    }
+
+    public void setList(List<Pessoa> list) {
+        this.list = list;
     }
 
 }
